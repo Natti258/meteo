@@ -24,8 +24,8 @@ function getWeather(city) {
     .get(url)
     .then((response) => {
       console.log(response.data);
-      let temperature = response.data.main.temp;
-      updateTemperature(temperature);
+      updateWeatherInfo(response);
+      updateTemperature(response.data.main.temp);
     })
     .catch((error) => {
       console.error("Error fetching weather data:", error);
@@ -36,52 +36,42 @@ function updateTemperature(newTemperature) {
   document.querySelector(".current-temperature-water").textContent =
     Math.round(newTemperature); // Округляем температуру до ближайшего целого
 }
-function updateWeatherInfo(response) {
-    let weather = response.data.weather[0];
-    let temperature = response.data.mein.temp;
-    let humidity = response.data.mein.humidity;
-    let windSpeed = response.data.wind.speed;
 
-     // Обновляем текстовые данные о погоде
-    document.querySelector(".info-weather").innerHTML = `
+function updateWeatherInfo(response) {
+  let weather = response.data.weather[0];
+  let humidity = response.data.main.humidity;
+  let windSpeed = response.data.wind.speed;
+
+  // Обновляем текстовые данные о погоде
+  document.querySelector(".info-weather").innerHTML = `
     ${weather.description} <br />
     Humidity: <strong>${humidity}%</strong>, Wind: <strong>${windSpeed} km/h</strong>
   `;
-    // Обновляем иконку погоды в зависимости от текущей погоды
+
+  // Обновляем иконку погоды в зависимости от текущей погоды
   const weatherIcon = getWeatherIcon(weather.icon);
   document.querySelector(".gif-container img").src = weatherIcon;
-
 }
 
 function getWeatherIcon(weatherCode) {
-    switch (weatherCode) {
-      case "01d":
-        return "https://s9.gifyu.com/images/SUvPm.gif"; // Солнечно
-      case "02d":
-      case "03d":
-      case "04d":
-        return "https://s9.gifyu.com/images/SUvP7.gif"; // Облачно
-      case "09d":
-        return "https://s9.gifyu.com/images/SUvPd.gif"; // Дождь
-      case "10d":
-        return "https://s9.gifyu.com/images/SUvPQ.gif"; // Ливень
-      case "11d":
-        return "https://s9.gifyu.com/images/SUvPg.gif"; // Гроза
-      case "13d":
-        return "https://s9.gifyu.com/images/SUvP5.gif"; // Снег
-      case "50d":
-        return "https://s9.gifyu.com/images/SUvX2.gif"; // Туман
-      default:
-        return "https://s9.gifyu.com/images/unknown.gif"; // Неизвестно
-    }
+  switch (weatherCode) {
+    case "01d":
+      return isDaytime ? "https://s9.gifyu.com/images/SUvPm.gif" : "https://s9.gifyu.com/images/SUve6.gif"; // Солнечно ; яркая луна
+    case "02d":
+    case "03d":
+    case "04d":
+      return isDaytime ? "https://s9.gifyu.com/images/SUvP7.gif" : "https://s9.gifyu.com/images/SUve0.gif" ; // Облачно
+    case "09d":
+      return "https://s9.gifyu.com/images/SUvPd.gif"; // Дождь
+    case "10d":
+      return "https://s9.gifyu.com/images/SUvPQ.gif"; // Ливень
+    case "11d":
+      return "https://s9.gifyu.com/images/SUvPg.gif"; // Гроза
+    case "13d":
+      return "https://s9.gifyu.com/images/SUvP5.gif"; // Снег
+    case "50d":
+      return isDaytime ? "https://s9.gifyu.com/images/SUvX2.gif" : "https://s9.gifyu.com/images/SUve5.gif"; // Туман
+    default:
+      return isDaytime ? "https://s9.gifyu.com/images/SUvPm.gif" : "https://s9.gifyu.com/images/SUve6.gif" ; // Неизвестно
   }
-
-  axios
-  .get(url)
-  .then((response) => {
-    console.log(response.data);
-    updateWeatherInfo(response);
-  })
-  .catch((error) => {
-    console.error("Error fetching weather data:", error);
-  });
+}
