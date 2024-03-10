@@ -36,3 +36,52 @@ function updateTemperature(newTemperature) {
   document.querySelector(".current-temperature-water").textContent =
     Math.round(newTemperature); // Округляем температуру до ближайшего целого
 }
+function updateWeatherInfo(response) {
+    let weather = response.date.weather[0];
+    let temperature = response.date.mein.temp;
+    let humidity = response.data.mein.humidity;
+    let windSpeed = response.data.wind.speed;
+
+     // Обновляем текстовые данные о погоде
+    document.querySelector(".info-weather").innerHTML = `
+    ${weather.description} <br />
+    Humidity: <strong>${humidity}%</strong>, Wind: <strong>${windSpeed} km/h</strong>
+  `;
+    // Обновляем иконку погоды в зависимости от текущей погоды
+  const weatherIcon = getWeatherIcon(weather.icon);
+  document.querySelector(".gif-container img").src = weatherIcon;
+
+}
+
+function getWeatherIcon(weatherCode) {
+    switch (weatherCode) {
+      case "01d":
+        return "https://s9.gifyu.com/images/SUvJZ.gif"; // Солнечно
+      case "02d":
+      case "03d":
+      case "04d":
+        return "https://s9.gifyu.com/images/SUvJF.gif"; // Облачно
+      case "09d":
+        return "https://s9.gifyu.com/images/SUvJU.gif"; // Дождь
+      case "10d":
+        return "https://s9.gifyu.com/images/heavy-rain.gif"; // Ливень
+      case "11d":
+        return "https://s9.gifyu.com/images/thunderstorm.gif"; // Гроза
+      case "13d":
+        return "https://s9.gifyu.com/images/snowy.gif"; // Снег
+      case "50d":
+        return "https://s9.gifyu.com/images/misty.gif"; // Туман
+      default:
+        return "https://s9.gifyu.com/images/unknown.gif"; // Неизвестно
+    }
+  }
+
+  axios
+  .get(url)
+  .then((response) => {
+    console.log(response.data);
+    updateWeatherInfo(response);
+  })
+  .catch((error) => {
+    console.error("Error fetching weather data:", error);
+  });
