@@ -49,11 +49,11 @@ function updateWeatherInfo(response) {
   `;
 
   // Обновляем иконку погоды в зависимости от текущей погоды
-  const weatherIcon = getWeatherIcon(weather.icon);
+  const weatherIcon = getWeatherIcon(weather.icon ,isDaytime) ;
   document.querySelector(".gif-container img").src = weatherIcon;
 }
 
-function getWeatherIcon(weatherCode) {
+function getWeatherIcon(weatherCode, isDaytime) {
   switch (weatherCode) {
     case "01d":
       return isDaytime ? "https://s9.gifyu.com/images/SUvPm.gif" : "https://s9.gifyu.com/images/SUve6.gif"; // Солнечно ; яркая луна
