@@ -16,8 +16,8 @@ body {
   }
   
   button {
-    padding: 12px 40px;
-    background-color: #4305ee;
+    padding: 11px 40px;
+    background-color: #3f12ba;
     border: none;
     border-radius: 4px;
     color: white;
@@ -36,13 +36,13 @@ body {
   }
   
   .mein input[type="text"] {
-    background-color: #e8e8f9;
+    background-color: #ffffff;
     color: rgba(39, 33, 66, 0.4);
-    font-size: 16px;
+    font-size: 14px;
     padding: 11px;
     width: 50%;
     border-radius: 4px;
-    border: none;
+    border: none ;
   }
   
   h1 {
@@ -95,7 +95,8 @@ body {
   strong {
     font-weight: bold;
     font-size: 18px;
-    color: #4305ee;
+    color: #3f12ba;
+    ;
   }
   
   footer {
@@ -108,4 +109,7 @@ body {
     font-size: 28px;
     margin-left: -50px;
     
+  }
+  a {
+    color: #3f12ba;
   }
