@@ -24,7 +24,10 @@ function getWeather(city) {
     .get(url)
     .then((response) => {
       console.log(response.data);
-      updateWeatherInfo(response);
+      const sunrise = response.data.sys.sunrise * 1000; // Преобразуем время из секунд в миллисекунды
+      const sunset = response.data.sys.sunset * 1000; // Преобразуем время из секунд в миллисекунды
+      const isDaytime = isDay(sunrise, sunset);
+      updateWeatherInfo(response, isDaytime);
       updateTemperature(response.data.main.temp);
     })
     .catch((error) => {
@@ -32,12 +35,17 @@ function getWeather(city) {
     });
 }
 
+function isDay(sunrise, sunset) {
+  const currentDate = new Date();
+  return currentDate > sunrise && currentDate < sunset;
+}
+
 function updateTemperature(newTemperature) {
   document.querySelector(".current-temperature-water").textContent =
     Math.round(newTemperature); // Округляем температуру до ближайшего целого
 }
 
-function updateWeatherInfo(response) {
+function updateWeatherInfo(response, isDaytime) {
   let weather = response.data.weather[0];
   let humidity = response.data.main.humidity;
   let windSpeed = response.data.wind.speed;
@@ -48,8 +56,8 @@ function updateWeatherInfo(response) {
     Humidity: <strong>${humidity}%</strong>, Wind: <strong>${windSpeed} km/h</strong>
   `;
 
-  // Обновляем иконку погоды в зависимости от текущей погоды
-  const weatherIcon = getWeatherIcon(weather.icon ,isDaytime) ;
+  // Обновляем иконку погоды в зависимости от текущей погоды и времени суток
+  const weatherIcon = getWeatherIcon(weather.icon, isDaytime);
   document.querySelector(".gif-container img").src = weatherIcon;
 }
 
@@ -60,7 +68,7 @@ function getWeatherIcon(weatherCode, isDaytime) {
     case "02d":
     case "03d":
     case "04d":
-      return isDaytime ? "https://s9.gifyu.com/images/SUvP7.gif" : "https://s9.gifyu.com/images/SUve0.gif" ; // Облачно
+      return isDaytime ? "https://s9.gifyu.com/images/SUvP7.gif" : "https://s9.gifyu.com/images/SUve0.gif"; // Облачно
     case "09d":
       return "https://s9.gifyu.com/images/SUvPd.gif"; // Дождь
     case "10d":
@@ -72,6 +80,6 @@ function getWeatherIcon(weatherCode, isDaytime) {
     case "50d":
       return isDaytime ? "https://s9.gifyu.com/images/SUvX2.gif" : "https://s9.gifyu.com/images/SUve5.gif"; // Туман
     default:
-      return isDaytime ? "https://s9.gifyu.com/images/SUvPm.gif" : "https://s9.gifyu.com/images/SUve6.gif" ; // Неизвестно
+      return isDaytime ? "https://s9.gifyu.com/images/SUvPm.gif" : "https://s9.gifyu.com/images/SUve6.gif"; // Неизвестно
   }
 }
