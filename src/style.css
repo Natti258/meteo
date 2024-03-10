@@ -11,11 +11,7 @@ body {
     margin: 40px 20px;
     padding: 20px;
     box-shadow: 1px 10px 20px rgba(0, 0, 0, 0.2);
-    background: radial-gradient(
-      circle at 10% 20%,
-      rgba(216, 241, 230, 0.46) 0.1%,
-      rgba(233, 226, 226, 0.28) 90.1%
-    );
+    background: radial-gradient(circle at 18.7% 37.8%, rgb(250, 250, 250) 0%, rgb(225, 234, 238) 90%);
     border-radius: 10px;
   }
   
@@ -69,12 +65,7 @@ body {
     top: 40px;
   }
   
-  .weatherIcon {
-    position: relative;
-    bottom: 25px;
-    font-size: 28px;
-    margin-right: 10px;
-  }
+ 
   
   .current-temperature-water {
     font-size: 80px;
@@ -111,4 +102,10 @@ body {
     text-align: center;
     margin-top: 50px;
   }
-  
+  .gif-container {
+    position: relative;
+    top: 100px;
+    font-size: 28px;
+    margin-left: -50px;
+    
+  }
