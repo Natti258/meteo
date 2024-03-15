@@ -83,3 +83,27 @@ function getWeatherIcon(weatherCode, isDaytime) {
       return isDaytime ? "https://s9.gifyu.com/images/SUvPm.gif" : "https://s9.gifyu.com/images/SUve6.gif"; // Неизвестно
   }
 }
+
+function displeyForecast() {
+  let forecastElement = document.querySelector("#forecast"); // Объявление переменной для доступа к элементу DOM
+  let forcastHTML = "";
+
+  let days = ["Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  days.forEach(function (day) {
+    forcastHTML += `
+      <div class="weather-day">
+        <div class="weather-forcast-date">${day}</div>
+        <img src="https://s9.gifyu.com/images/SUvPm.gif" id="weather-day-icon" alt="icons">
+        <div class="weather-forecast-temperature">
+          <div class="weather-forecast-temperature-max">
+            <strong>15°C</strong>
+          </div>
+          <div class="weather-forecast-temperature-min">10°C</div>
+        </div>
+      </div>`;
+  });
+
+  forecastElement.innerHTML = forcastHTML; // Вставка сгенерированного HTML в элемент DOM
+}
+
+displeyForecast(); // Вызов функции после определения всех необходимых переменных и элементов
