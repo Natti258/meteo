@@ -59,6 +59,8 @@ function updateWeatherInfo(response, isDaytime) {
   // Обновляем иконку погоды в зависимости от текущей погоды и времени суток
   const weatherIcon = getWeatherIcon(weather.icon, isDaytime);
   document.querySelector(".gif-container img").src = weatherIcon;
+
+  getForecast(response.data.city)
 }
 
 function getWeatherIcon(weatherCode, isDaytime) {
@@ -84,7 +86,17 @@ function getWeatherIcon(weatherCode, isDaytime) {
   }
 }
 
-function displeyForecast() {
+function getForecast(city){
+  let apiKey = "59a99bf814c1d687d082fbb625caab0c";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+ console.log(apiUrl); 
+ axios(apiUrl).then(displeyForecast);
+}
+
+
+function displeyForecast(response) {
+  console.log(response.data);
+
   let forecastElement = document.querySelector("#forecast"); // Объявление переменной для доступа к элементу DOM
   let forcastHTML = "";
 
@@ -106,4 +118,5 @@ function displeyForecast() {
   forecastElement.innerHTML = forcastHTML; // Вставка сгенерированного HTML в элемент DOM
 }
 
-displeyForecast(); // Вызов функции после определения всех необходимых переменных и элементов
+
+getForecast("Zurich");
