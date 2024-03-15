@@ -90,6 +90,16 @@ body {
     color: rgba(26, 25, 33, 0.4);
   }
   
+
+  .weather-forecast{
+  margin-top: 30px;
+  text-align: center;
+  display: flex;
+  justify-content:space-between;
+
+  }
+
+
   p {
     font-size: 10px;
     margin-top: 1px;
@@ -115,3 +125,29 @@ body {
   a {
     color: #3f12ba;
   }
+
+  .weather-day {
+   font-size: 16px;
+   color: #c9c9c9;
+  }
+
+  .weather-forecast-temperature{
+    margin-top: 10px;
+    display: flex;
+    justify-content:space-between;
+    font-size: 14px;
+    color: #c9c9c9;
+  }
+
+  .weather-forecast-temperature-min{
+    margin-left: 10px;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    display: flex;
+    font-size: 14px;
+    color: #c9c9c9;
+  }
+   
+   
+  
