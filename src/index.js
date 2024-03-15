@@ -41,6 +41,9 @@ function getWeather(city) {
       console.error("Error fetching weather data:", error);
     });
 }
+document.addEventListener("DOMContentLoaded", function() {
+  updateCurrentDate(); // Вызываем функцию для обновления текущей даты и времени при загрузке страницы
+});
 
 
 
@@ -130,11 +133,14 @@ function displayForecast(response) {
     const maxTemp = Math.round(forecastList[i].main.temp_max);
     const minTemp = Math.round(forecastList[i].main.temp_min);
     const weatherCode = forecastList[i].weather[0].icon; // Получаем код погоды
+     
+    const weatherIcon = getWeatherIcon(weatherCode, true);
+
 
     forecastHTML += `
       <div class="weather-day">
         <div class="weather-forecast-date">${daysOfWeek[dayOfWeekIndex]}</div>
-        <img src="https://s9.gifyu.com/images/SUvPm.gif" id="weather-day-icon" alt="icons">
+         <img src="${weatherIcon}" id="weather-day-icon" alt="icons">
         <div class="weather-forecast-temperature">
           <div class="weather-forecast-temperature-max">
             <strong>${maxTemp}°C</strong>
