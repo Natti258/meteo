@@ -120,7 +120,7 @@ function displayForecast(response) {
   const forecastElement = document.querySelector("#forecast");
   let forecastHTML = "";
 
-  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const today = new Date();
   const currentDayOfWeekIndex = today.getDay(); // Получаем индекс текущего дня недели
 

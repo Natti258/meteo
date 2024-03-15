@@ -80,7 +80,7 @@ body {
   
   .info-weather {
     display: block;
-    font-size: 18px;
+    font-size: 16px;
     color: rgba(26, 25, 33, 0.4);
   }
   #currentDateTime {
@@ -94,9 +94,9 @@ body {
   .weather-forecast{
   margin: 40px;
   margin-top: 30px;
-  text-align: center;
-  display: flex;
+   display: flex;
   justify-content:space-between;
+  text-align: center;
 
   }
 
@@ -127,9 +127,12 @@ body {
     color: #3f12ba;
   }
 
+ 
   .weather-day {
    font-size: 16px;
-   color: #c9c9c9;
+   color: rgba(26, 25, 33, 0.4);
+   padding: auto;
+
   }
 
   .weather-forecast-temperature{
@@ -137,17 +140,18 @@ body {
     display: flex;
     justify-content:space-between;
     font-size: 14px;
-    color: #c9c9c9;
+    color: rgba(26, 25, 33, 0.4);
+   
   }
 
   .weather-forecast-temperature-min{
-    margin-left: 10px;
+ 
     justify-content: center;
     flex-direction: column;
-    text-align: center;
     display: flex;
     font-size: 14px;
-    color: #c9c9c9;
+    color: rgba(26, 25, 33, 0.4);
+    margin-left: 10px;
   }
    
    
