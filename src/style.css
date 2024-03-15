@@ -92,6 +92,7 @@ body {
   
 
   .weather-forecast{
+  margin: 40px;
   margin-top: 30px;
   text-align: center;
   display: flex;

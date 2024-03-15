@@ -4,17 +4,23 @@ const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
   currentDate
 );
 
-document.getElementById("currentDateTime").textContent = formattedDate;
+document.getElementById("searchForm").addEventListener("submit", function (event) {
+  event.preventDefault();
+  const cityInput = document.getElementById("cityInput");
+  const city = cityInput.value;
+  document.getElementById("cityName").textContent = city;
+  getWeather(city); // Вызываем функцию для получения погоды
+  console.log(city); // Проверяем значение city в консоли
+  getForecast(city); // Вызываем функцию для получения прогноза погоды
+});
 
-document
-  .getElementById("searchForm")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
-    const cityInput = document.getElementById("cityInput");
-    const city = cityInput.value;
-    document.getElementById("cityName").textContent = city;
-    getWeather(city); // Вызываем функцию для получения погоды
-  });
+function updateCurrentDate() {
+  const currentDate = new Date();
+  const options = { weekday: "long", hour: "2-digit", minute: "2-digit" };
+  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(currentDate);
+  document.getElementById("currentDateTime").textContent = formattedDate;
+}
+
 
 function getWeather(city) {
   let apiKey = "59a99bf814c1d687d082fbb625caab0c";
@@ -29,11 +35,15 @@ function getWeather(city) {
       const isDaytime = isDay(sunrise, sunset);
       updateWeatherInfo(response, isDaytime);
       updateTemperature(response.data.main.temp);
+      updateCurrentDate(); // Добавляем вызов функции обновления текущей даты и времени
     })
     .catch((error) => {
       console.error("Error fetching weather data:", error);
     });
 }
+
+
+
 
 function isDay(sunrise, sunset) {
   const currentDate = new Date();
@@ -61,6 +71,8 @@ function updateWeatherInfo(response, isDaytime) {
   document.querySelector(".gif-container img").src = weatherIcon;
 
   getForecast(response.data.city)
+
+
 }
 
 function getWeatherIcon(weatherCode, isDaytime) {
@@ -88,35 +100,56 @@ function getWeatherIcon(weatherCode, isDaytime) {
 
 function getForecast(city){
   let apiKey = "59a99bf814c1d687d082fbb625caab0c";
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+  let apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
  console.log(apiUrl); 
- axios(apiUrl).then(displeyForecast);
+ axios(apiUrl).then(displayForecast); // Исправленная опечатка
 }
 
 
-function displeyForecast(response) {
+
+function getNextDayOfWeek(currentDayOfWeekIndex) {
+  return (currentDayOfWeekIndex + 1) % 7;
+}
+
+function displayForecast(response) {
   console.log(response.data);
 
-  let forecastElement = document.querySelector("#forecast"); // Объявление переменной для доступа к элементу DOM
-  let forcastHTML = "";
+  const forecastElement = document.querySelector("#forecast");
+  let forecastHTML = "";
 
-  let days = ["Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  days.forEach(function (day) {
-    forcastHTML += `
+  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const today = new Date();
+  const currentDayOfWeekIndex = today.getDay(); // Получаем индекс текущего дня недели
+
+  const forecastList = response.data.list; // Получаем список прогнозов
+
+  // Начинаем с 1, чтобы пропустить сегодняшний день, и берем прогнозы только на следующие 5 дней
+  for (let i = 1; i < 6; i++) {
+    const forecastDate = new Date(forecastList[i].dt * 1000); // Преобразуем время из Unix в миллисекунды
+    const dayOfWeekIndex = getNextDayOfWeek(currentDayOfWeekIndex + i); // Индекс дня недели для прогноза
+    const maxTemp = Math.round(forecastList[i].main.temp_max);
+    const minTemp = Math.round(forecastList[i].main.temp_min);
+    const weatherCode = forecastList[i].weather[0].icon; // Получаем код погоды
+
+    forecastHTML += `
       <div class="weather-day">
-        <div class="weather-forcast-date">${day}</div>
+        <div class="weather-forecast-date">${daysOfWeek[dayOfWeekIndex]}</div>
         <img src="https://s9.gifyu.com/images/SUvPm.gif" id="weather-day-icon" alt="icons">
         <div class="weather-forecast-temperature">
           <div class="weather-forecast-temperature-max">
-            <strong>15°C</strong>
+            <strong>${maxTemp}°C</strong>
           </div>
-          <div class="weather-forecast-temperature-min">10°C</div>
+          <div class="weather-forecast-temperature-min">${minTemp}°C</div>
         </div>
       </div>`;
-  });
+  }
 
-  forecastElement.innerHTML = forcastHTML; // Вставка сгенерированного HTML в элемент DOM
+  forecastElement.innerHTML = forecastHTML;
 }
 
+// Функция getNextDayOfWeek не требует изменений
+function getNextDayOfWeek(currentDayOfWeekIndex) {
+  return currentDayOfWeekIndex % 7;
+}
 
 getForecast("Zurich");
